@@ -1,5 +1,6 @@
 div.page-logo {overflow: visible;}
 img.logo-default {
+    margin-top: 5px;
     max-height: 150px;
     height: 100px;
 }
@@ -147,4 +148,11 @@ li.ng-scope {
 .page-spinner-bar{margin-top:-84px;margin-left:-98px;top:50%;left:50%;}
 .mini-logo {
   height: 1.2em;
+}
+
+@media (max-width: 995px) {
+    img.logo-default {
+        max-height: 100px;
+        height: 75px;
+    }
 }

@@ -94,6 +94,7 @@ BlocksApp.controller('FooterController', ['$scope', 'setupObj', function($scope,
     setupObj.then(function(res) {
         $scope.settings = res;
     });
+    
 }]);
 /* Setup Rounting For All Pages */
 BlocksApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
