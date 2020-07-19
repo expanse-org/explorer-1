@@ -303,6 +303,23 @@ BlocksApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                 }]
             }
         })
+        .state('api', {
+            url: "/api",
+            templateUrl: "views/api.html",
+            data: {pageTitle: "Public Api"},
+            controller: "ApiController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'BlocksApp',
+                        insertBefore: '#ng_load_plugins_before',
+                        files: [
+                             '/js/controllers/ApiController.js'
+                        ]
+                    });
+                }]
+            }
+        })
         .state('err404', {
             url: "/err404/{thing}/{hash}",
             templateUrl: "views/err_404.html",

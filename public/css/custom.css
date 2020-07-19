@@ -111,6 +111,23 @@ li.ng-scope {
 .table-scrollable {
     margin: 0 !important;
 }
+textarea.textRawTx {
+    min-height: 150px;
+}
+button.postRawTx {
+    padding: 8px;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+div.apiDocs {
+    margin-bottom: 10px;
+}
+.apiPage pre {
+    display: flex;
+    align-items: center;
+    min-height: 50px;
+}
 @media (max-width: 487px) {
     .container {
         margin: 0 !important;
