@@ -1,0 +1,92 @@
+<!-- BEGIN PAGE CONTENT-->
+<div class="row">
+  <div class="col-md-12 portlet light">
+    <div class="portlet-body apiPage">
+      <h3>Expanse Public API, use it for free.</h3>
+      <!-- Get Address Balance -->
+      <div class="apiDocs">
+        <strong>Get Address Balance</strong>
+        <pre>
+          <a href="https://explorer.expanse.tech/v1/address=0x4c9cd8f2e1a88db9df7b5afbf31540198c245395">https://explorer.expanse.tech/v1/address=0x4c9cd8f2e1a88db9df7b5afbf31540198c245395</a>
+        </pre>
+        <p>Response:</p>
+        <pre>
+  {
+    "success": true,
+    "address":"0x4c9cd8f2e1a88db9df7b5afbf31540198c245395",
+    "balance":"0.0001"
+  }
+        </pre>
+      </div>
+      <!-- get BLock Info -->
+      <div class="apiDocs">
+        <strong>Get Block Info</strong>
+        <pre>
+          <a href="https://explorer.expanse.tech/v1/block=3615561">https://explorer.expanse.tech/v1/block=3615561</a>
+        </pre>
+        <p>Response:</p>
+        <pre>
+  {
+    "success": true,
+    "data" : {
+      "number":3615561,
+      "totalDifficulty":"21498596876005772749",
+      "difficulty":"791381352198",
+      "timestamp":1595069836,
+      "miner":"0xbab463743603a253bdf1f84975b1a9517505ae05",
+      "nonce":"0x42ae68562d22fcf9",
+      "extraData":"0x66726132",
+      "hash":"0x6b36b8a018f4d59fc9e7187fd632dd6eeee70c8b09ab1937f7e7a3a519212c39",
+      "parentHash":"0xa87ef71fae8e232d7530f8624dcf37dd0201d2220206f08158376f938ef3eaa0",
+      "gasUsed":0,
+      "gasLimit":6976055,
+      "size":520,             
+      }
+    }
+  }
+        </pre>
+      </div>
+      <!-- Get Hash Info -->
+      <div class="apiDocs">
+        <strong>Get Transaction Info</strong>
+        <pre>
+          <a href="https://explorer.expanse.tech/v1/tx=0xfb44041400e118b79934ce2297dfa5c0fe639e327958dee81191327bd744df5b">https://explorer.expanse.tech/v1/tx=0xfb44041400e118b79934ce2297dfa5c0fe639e327958dee81191327bd744df5b</a>
+        </pre>
+        <p>Response:</p>
+        <pre>
+  {
+    "success":true,
+    "data":{
+        "from":"0x88059a92c6a5777e015b432b11120abc26ae8bfe",
+        "to":"0xbc3e775fc27bb885dc86b6a02c10309d0ca0027d",
+        "value":"2.34197995",
+        "input":"0x",
+        "timestamp":1595069619,
+        "gasPrice":"1000000000",
+        "gasUsed":21000,
+        "gas":50000,
+        "nonce":716086,
+        "blockNumber":3615551,
+        "hash":"0xfb44041400e118b79934ce2297dfa5c0fe639e327958dee81191327bd744df5b"
+    }
+  }
+        </pre>
+      </div>
+      <!-- Send Signed Tx -->
+      <div class="apiDocs">
+        <strong>Send Signed Transaction</strong>
+        <div>
+          <textarea
+            type="text"
+            name = "rawTx" 
+            class="form-control textRawTx" 
+            placeholder="Put raw Transaction..."
+            ng-model="form.data"
+          ></textarea>
+          <button class="postRawTx" ng-click="postTx(form.data)">Send Transaction</button>
+          <span ng-show="rawTxResponse">Response: {{ rawTxResponse }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -94,6 +94,7 @@ BlocksApp.controller('FooterController', ['$scope', 'setupObj', function($scope,
     setupObj.then(function(res) {
         $scope.settings = res;
     });
+    
 }]);
 /* Setup Rounting For All Pages */
 BlocksApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
@@ -297,6 +298,23 @@ BlocksApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
                         insertBefore: '#ng_load_plugins_before',
                         files: [
                              '/js/controllers/TokenController.js'
+                        ]
+                    });
+                }]
+            }
+        })
+        .state('api', {
+            url: "/api",
+            templateUrl: "views/api.html",
+            data: {pageTitle: "Public Api"},
+            controller: "ApiController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'BlocksApp',
+                        insertBefore: '#ng_load_plugins_before',
+                        files: [
+                             '/js/controllers/ApiController.js'
                         ]
                     });
                 }]

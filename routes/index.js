@@ -34,6 +34,114 @@ module.exports = function (app) {
   app.post('/compile', compile);
 
   app.post('/stats', stats);
+
+  app.get('/v1/address=:address', getApiAddress);
+  app.get('/v1/block=:blockNumberOrHash', getApiBlock);
+  app.get('/v1/tx=:txHash', getApiTransaction);
+};
+
+const getApiTransaction = async (req, res) => {
+  let { txHash } = req.params;
+  txHash = txHash.toLowerCase();
+  try {
+    const txData = await Transaction.find({ hash: txHash }).exec('find');
+    return res.json({
+      success: true,
+      data: {
+        from: txData[0]._doc.from,
+        to: txData[0]._doc.to,
+        value: txData[0]._doc.value,
+        input: txData[0]._doc.input,
+        timestamp: txData[0]._doc.timestamp,
+        gasPrice: txData[0]._doc.gasPrice,
+        gasUsed: txData[0]._doc.gasUsed,
+        gas: txData[0]._doc.gas,
+        nonce: txData[0]._doc.nonce,
+        blockNumber: txData[0]._doc.blockNumber,
+        hash: txData[0]._doc.hash,
+      },
+    });
+  } catch (e) {
+    return res.json({
+      success: false,
+      reason: 'Cannot find transaction',
+    });
+  }
+};
+
+const getApiAddress = async (req, res) => {
+  const { address } = req.params;
+
+  try {
+    const accountData = await Account.find({ address: address.toLowerCase() }).exec('find');
+    if (accountData.length > 0) {
+      return res.json({
+        success: true,
+        address,
+        balance: accountData.balance,
+      });
+    } else {
+      return res.json({
+        success: false,
+        reason: 'Cannot find address',
+      });
+    }
+  } catch (e) {
+    return res.json({
+      success: false,
+      reason: e,
+    });
+  }
+};
+
+const getApiBlock = async (req, res) => {
+  const { blockNumberOrHash } = req.params;
+  let blockData = {};
+
+  if (blockNumberOrHash.length > 60) {
+    // find block by Hash
+    try {
+      blockData = await Block.findOne({ hash: blockNumberOrHash }).exec();
+    } catch (e) {
+      return res.json({
+        success: false,
+        reason: e,
+      });
+    }
+  } else if (parseInt(blockNumberOrHash)) {
+    // find block by Number
+    try {
+      blockData = await Block.findOne({ number: blockNumberOrHash }).exec();
+    } catch (e) {
+      return res.json({
+        success: false,
+        reason: e,
+      });
+    }
+  }
+  if (!blockData) {
+    return res.json({
+      success: false,
+      reason: 'Wrong block data, try another one',          
+    });
+  }
+  return res.json({
+    success: true,
+    data: {
+      number: blockData._doc.number,
+      totalDifficulty: blockData._doc.totalDifficulty,
+      difficulty: blockData._doc.difficulty,
+      timestamp: blockData._doc.timestamp,
+      miner: blockData._doc.miner,
+      nonce: blockData._doc.nonce,
+      extraData: blockData._doc.extraData || null,
+      hash: blockData._doc.hash,
+      parentHash: blockData._doc.parentHash,
+      gasUsed: blockData._doc.gasUsed,
+      gasLimit: blockData._doc.gasLimit,
+      size: blockData._doc.size,
+    },
+  });
 };
 
 const getAddr = async (req, res) => {
@@ -67,8 +175,8 @@ const getAddr = async (req, res) => {
       res.write(JSON.stringify(data));
       res.end();
     });
-
 };
+
 var getAddrCounter = function (req, res) {
   const addr = req.body.addr.toLowerCase();
   const count = parseInt(req.body.count);

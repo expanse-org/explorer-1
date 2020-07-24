@@ -138,6 +138,29 @@ exports.data = async (req, res) => {
       res.write(JSON.stringify(txResponse));
       res.end();
     });
+  } else if ('tx_send' in req.body) {
+    let rawTx = req.body.tx_send.toLowerCase();
+    rawTx = rawTx.substring(0, 2) === '0x' ? rawTx : `0x${rawTx}`;
+    web3.eth.sendSignedTransaction(rawTx.toString('hex'))
+      .on('transactionHash', (hash) => {
+        res.json({
+          success: true,
+          hash,
+        });
+      })
+      .on('error', (error) => {
+        const stringError = String(error);
+        let reason = '';
+        if (stringError.includes('invalid argument')) {
+          reason = 'Error: Returned error: invalid argument 0: json: cannot unmarshal invalid hex string into Go value of type hexutil.Bytes'
+        } else if (stringError.includes('invalid sender')) {
+          reason = 'Error: Returned error: invalid sender'
+        }
+        res.json({
+          success: false,
+          reason,
+        });
+      });
 
   } else if ('tx_trace' in req.body) {
     var txHash = req.body.tx_trace.toLowerCase();
