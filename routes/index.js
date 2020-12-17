@@ -147,13 +147,13 @@ const getApiBlock = async (req, res) => {
 const getAddr = async (req, res) => {
   // TODO: validate addr and tx
   const addr = req.body.addr.toLowerCase();
-  const count = parseInt(req.body.count);
+  const count = parseInt(req.body.count, 10);
 
-  const limit = parseInt(req.body.length);
-  const start = parseInt(req.body.start);
+  const limit = parseInt(req.body.length, 10);
+  const start = parseInt(req.body.start, 10);
 
   const data = {
-    draw: parseInt(req.body.draw), recordsFiltered: count, recordsTotal: count, mined: 0,
+    draw: parseInt(req.body.draw, 10), recordsFiltered: count, recordsTotal: count, mined: 0,
   };
 
   const addrFind = Transaction.find({ $or: [{ 'to': addr }, { 'from': addr }] });
@@ -177,7 +177,7 @@ const getAddr = async (req, res) => {
     });
 };
 
-var getAddrCounter = function (req, res) {
+const getAddrCounter = function (req, res) {
   const addr = req.body.addr.toLowerCase();
   const count = parseInt(req.body.count);
   const data = { recordsFiltered: count, recordsTotal: count, mined: 0 };
@@ -209,7 +209,7 @@ var getAddrCounter = function (req, res) {
   });
 
 };
-var getBlock = function (req, res) {
+const getBlock = function (req, res) {
   // TODO: support queries for block hash
   const txQuery = 'number';
   const number = parseInt(req.body.block);
@@ -227,11 +227,16 @@ var getBlock = function (req, res) {
     res.end();
   });
 };
-var getTx = function (req, res) {
+const getTx = function (req, res) {
   const tx = req.body.tx.toLowerCase();
   const txFind = Block.findOne({ 'transactions.hash': tx }, 'transactions timestamp')
     .lean(true);
   txFind.exec((err, doc) => {
+    if (err) {
+      console.log(`Error during find tx: ${tx}`);
+      res.write(JSON.stringify({}));
+      res.end();
+    }
     if (!doc) {
       console.log(`missing: ${tx}`);
       res.write(JSON.stringify({}));

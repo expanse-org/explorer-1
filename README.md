@@ -155,7 +155,7 @@ $ > show dbs
 ```
 
 will show db informations.
-and You can add modified from  ./db.js:103 lines,  add auth information and mongodb connect options.
+and You can add modified from  ./db.js:148 lines,  add auth information and mongodb connect options.
 
 ```
 mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost/explorerDB', {
