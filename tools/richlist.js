@@ -34,7 +34,6 @@ try {
 console.log(`Connecting ${config.nodeAddr}:${config.wsPort}...`);
 // Sets address for RPC WEB3 to connect to, usually your node IP address defaults ot localhost
 const web3 = new Web3(new Web3.providers.WebsocketProvider(`ws://${config.nodeAddr}:${config.wsPort.toString()}`));
-
 // RichList for Geth Classic, Geth
 function makeRichList(toBlock, blocks, updateCallback) {
   const self = makeRichList;

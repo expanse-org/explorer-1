@@ -38,7 +38,30 @@ module.exports = function (app) {
   app.get('/v1/address=:address', getApiAddress);
   app.get('/v1/block=:blockNumberOrHash', getApiBlock);
   app.get('/v1/tx=:txHash', getApiTransaction);
+  app.get('/v1/totalSupply', getTotalSupply);
 };
+
+const getTotalSupply = async (req, res) => {
+  try{
+
+    const supply = await Account.aggregate([{ $group: { _id: null, totalSupply: { $sum: '$balance' } } }]).exec();
+    //const { totalSupply } = supply[0];
+
+    return res.json({
+      success: true,
+      data: {
+        totalSupply: supply[0].totalSupply,
+        timestamp: new Date()
+      }
+    });
+
+  } catch (e) {
+    return res.json({
+      success: false,
+      reason: 'Something went wrong trying to find the total supply',
+    });
+  }
+}
 
 const getApiTransaction = async (req, res) => {
   let { txHash } = req.params;
