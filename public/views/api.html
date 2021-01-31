@@ -5,17 +5,35 @@
       <h3>Expanse Public API, use it for free.</h3>
       <!-- Get Address Balance -->
       <div class="apiDocs">
+        <strong>Get Total Supply</strong>
+        <pre>
+          <a href="https://explorer.expanse.tech/v1/totalSupply">https://explorer.expanse.tech/v1/totalSupply</a>
+        </pre>
+        <p>Response:</p>
+        <pre>
+          {
+            "success": true,
+            "data": {
+              "totalSupply": 32407297.244988676,
+              "timestamp": "2021-01-31T21:40:28.871Z"
+            }
+          }
+        </pre>
+      </div>
+
+      <!-- Get Address Balance -->
+      <div class="apiDocs">
         <strong>Get Address Balance</strong>
         <pre>
           <a href="https://explorer.expanse.tech/v1/address=0x4c9cd8f2e1a88db9df7b5afbf31540198c245395">https://explorer.expanse.tech/v1/address=0x4c9cd8f2e1a88db9df7b5afbf31540198c245395</a>
         </pre>
         <p>Response:</p>
         <pre>
-  {
-    "success": true,
-    "address":"0x4c9cd8f2e1a88db9df7b5afbf31540198c245395",
-    "balance":"0.0001"
-  }
+          {
+            "success": true,
+            "address":"0x4c9cd8f2e1a88db9df7b5afbf31540198c245395",
+            "balance":"0.0001"
+          }
         </pre>
       </div>
       <!-- get BLock Info -->
@@ -40,7 +58,7 @@
       "parentHash":"0xa87ef71fae8e232d7530f8624dcf37dd0201d2220206f08158376f938ef3eaa0",
       "gasUsed":0,
       "gasLimit":6976055,
-      "size":520,             
+      "size":520,
       }
     }
   }
@@ -76,17 +94,12 @@
       <div class="apiDocs">
         <strong>Send Signed Transaction</strong>
         <div>
-          <textarea
-            type="text"
-            name = "rawTx" 
-            class="form-control textRawTx" 
-            placeholder="Put raw Transaction..."
-            ng-model="form.data"
-          ></textarea>
+          <textarea type="text" name="rawTx" class="form-control textRawTx" placeholder="Put raw Transaction..." ng-model="form.data"></textarea>
           <button class="postRawTx" ng-click="postTx(form.data)">Send Transaction</button>
           <span ng-show="rawTxResponse">Response: {{ rawTxResponse }}</span>
         </div>
       </div>
+
     </div>
   </div>
 </div>
